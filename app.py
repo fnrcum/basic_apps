@@ -174,7 +174,6 @@ def action_register():
     _fname = request.form['inputFirstName']
     _lname = request.form['inputLastName']
     _email = escape(request.form['inputEmail'])
-    print _email
     _password = request.form['inputPassword']
 
     # validate the received values
@@ -209,16 +208,22 @@ def action_logout():
 
 @application.route('/action_remove_from_cart', methods=['POST'])
 def action_remove_from_cart():
-    if "added_products" in session:
-        session.pop("added_products", None)
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-        if "added_products" in session:
-            return render_template('cart.html', session_user_name=username_session, row=session['rows'],
-                                   cart=session["cart"][0])
-        else:
-            return render_template('cart.html', session_user_name=username_session, row=session['rows'])
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    if 'username' not in session:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        product_id = escape(request.form['productID'])
+        user_id = escape(request.form['userID'])
+        query = "DELETE FROM cart WHERE user_id = {0} AND product_id = {1}".format(user_id, product_id)
+        cursor.execute(query)
+        conn.commit()
+
+        conn.close()
+        return redirect(url_for('cart'))
+
+    conn.close()
     return redirect(url_for('cart'))
 
 
