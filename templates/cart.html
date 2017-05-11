@@ -130,7 +130,25 @@
                                                 <!--<input type="submit" value="Apply Coupon" name="apply_coupon" class="button">-->
                                             <!--</div>-->
                                             <!--<input type="submit" value="Update Cart" name="update_cart" class="button">-->
-                                            <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                            <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward" data-toggle="modal" data-target="#checkoutModal">
+                                              <!-- Proceed to checkout Modal -->
+                                              <div class="modal fade" id="checkoutModal" role="dialog">
+                                                <div class="modal-dialog">
+                                                  <!-- Modal content-->
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                      <h4 class="modal-title">Work in progress</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <p> Checkout feature is not implemented yet </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                         </td>
                                     </tr>
                                 </tbody>
