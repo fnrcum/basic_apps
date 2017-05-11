@@ -74,7 +74,7 @@
             <div class="col-md-8">
                 <div class="product-content-right">
                     <div class="woocommerce">
-                        <form method="post" action="{{ url_for('action_remove_from_cart') }}">
+                        <!--<form method="post" action="javascript:;">-->
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
                                     <tr>
@@ -111,9 +111,9 @@
 
                                         <td class="product-quantity">
                                             <div class="quantity buttons_added">
-                                                <input type="button" class="minus" value="-">
-                                                <input type="number" size="4" class="input-text qty text" title="Qty" value="{{ item[4] }}" min="0" step="1" >
-                                                <input type="button" class="plus" value="+">
+                                                <input type="button" class="minus" value="-" onclick="decrementValue()">
+                                                <input id="qtyfield" type="number" size="4" class="input-text qty text" title="Qty" value="{{ item[4] }}" min="0" step="1" >
+                                                <input type="button" class="plus" value="+" onclick="incrementValue()">
                                             </div>
                                         </td>
 
@@ -135,7 +135,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </form>
+                        <!--</form>-->
 
                         <div class="cart-collaterals">
 
@@ -147,7 +147,7 @@
                                     <a href="single-product.html">
                                         <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="{{ url_for('static', filename='img/product-thumb-3.jpg') }}">
                                         <h3>Ship Your Idea</h3>
-                                        <span class="price"><span class="amount">£{% if cart %}{{ cart[2] }}{% endif %}</span></span>
+                                        <span class="price"><span class="amount">£{% if cart %}{{ cart[0][2] }}{% endif %}</span></span>
                                     </a>
 
                                     <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
@@ -156,8 +156,8 @@
                                 <li class="product">
                                     <a href="single-product.html">
                                         <img width="325" height="325" alt="T_4_front" class="attachment-shop_catalog wp-post-image" src="{{ url_for('static', filename='img/product-thumb-4.jpg') }}">
-                                        <h3>Ship Your Idea</h3>
-                                        <span class="price"><span class="amount">£{% if cart %}{{ cart[2] }}{% endif %}</span></span>
+                                        <h3>Ship Your Idea </h3>
+                                        <span class="price"><span class="amount">£{% if cart %}{{ cart[0][2] }}{% endif %}</span></span>
                                     </a>
 
                                     <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="22" rel="nofollow" href="single-product.html">Select options</a>
@@ -466,4 +466,23 @@
 
 
 {% include "footer.html" %}
+<script type="text/javascript">
+    function incrementValue()
+{
+    var value = parseInt(document.getElementById('qtyfield').value, 10);
+    var ttlvalue = parseInt(document.getElementById('qtyfield').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    document.getElementById('qtyfield').value = value;
+}
+
+    function decrementValue()
+{
+    var value = parseInt(document.getElementById('qtyfield').value, 10);
+    var ttlvalue = parseInt(document.getElementById('qtyfield').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value--;
+    document.getElementById('qtyfield').value = value;
+}
+</script>
 {% endblock %}

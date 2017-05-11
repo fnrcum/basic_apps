@@ -12,6 +12,28 @@
             </div>
         </div>
     </div>
+
+    {% if request.args['submission_successful'] %}
+    <!--Modal submission-->
+    <div class="modal fade" id="mySubmissionModal" role="form">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-xs-center">Alert</h4>
+            </div>
+        <div class="modal-body">
+              <h2>Item successfully added to the cart</h2>
+        </div>
+        <!--<div class="modal-footer">-->
+          <!--&lt;!&ndash;<a href="#" data-dismiss="modal" data-toggle="modal" data-target="#mySignupModal">Sign Up</a>&ndash;&gt;-->
+        <!--</div>-->
+            </div>
+        </div>
+    </div>
+    {% endif %}
     
     
     <div class="single-product-area">
@@ -71,4 +93,9 @@
 
 
 {% include "footer.html" %}
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#mySubmissionModal').modal('show');
+    });
+</script>
 {% endblock %}
