@@ -161,7 +161,8 @@ def action_addproduct():
             conn.commit()
         # session['added_products'].append(product_id)
         conn.close()
-        return redirect(url_for('shop'))
+        success = True
+        return redirect(url_for('shop', submission_successful=success))
     conn.close()
     return render_template('index.html')
 
