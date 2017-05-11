@@ -111,14 +111,14 @@
 
                                         <td class="product-quantity">
                                             <div class="quantity buttons_added">
-                                                <input type="button" class="minus" value="-" onclick="decrementValue()">
-                                                <input id="qtyfield" type="number" size="4" class="input-text qty text" title="Qty" value="{{ item[4] }}" min="0" step="1" >
-                                                <input type="button" class="plus" value="+" onclick="incrementValue()">
+                                                <input type="button" class="minus" value="-" onclick="decrementValue( '{{ item[0]|string }}' )">
+                                                <input id="{{ 'qtyfield' + item[0]|string }}" type="number" size="4" class="input-text qty text" title="Qty" value="{{ item[4] }}" min="0" step="1" >
+                                                <input type="button" class="plus" value="+" onclick="incrementValue( '{{ item[0]|string }}' )">
                                             </div>
                                         </td>
 
                                         <td class="product-subtotal">
-                                            <span class="amount">£{{ item[2] }}</span>
+                                            <div id="{{ 'ttl' + item[0]|string }}" class="amount">{{ item[2] }}</div>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -130,25 +130,7 @@
                                                 <!--<input type="submit" value="Apply Coupon" name="apply_coupon" class="button">-->
                                             <!--</div>-->
                                             <!--<input type="submit" value="Update Cart" name="update_cart" class="button">-->
-                                            <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward" data-toggle="modal" data-target="#checkoutModal">
-                                              <!-- Proceed to checkout Modal -->
-                                              <div class="modal fade" id="checkoutModal" role="dialog">
-                                                <div class="modal-dialog">
-                                                  <!-- Modal content-->
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                      <h4 class="modal-title">Work in progress</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                      <p> Checkout feature is not implemented yet </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
+                                            <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -484,23 +466,33 @@
 
 
 {% include "footer.html" %}
+
 <script type="text/javascript">
-    function incrementValue()
+
+function incrementValue(field_id)
 {
-    var value = parseInt(document.getElementById('qtyfield').value, 10);
-    var ttlvalue = parseInt(document.getElementById('qtyfield').value, 10);
+    var value = parseInt(document.getElementById('qtyfield'.concat(field_id)).value, 10);
     value = isNaN(value) ? 0 : value;
     value++;
-    document.getElementById('qtyfield').value = value;
+    document.getElementById('qtyfield'.concat(field_id)).value = value;
+
+    var ttlvalue = parseInt(document.getElementById('ttl'.concat(field_id)).innerHTML, 10);
+    ttlvalue = isNaN(ttlvalue) ? 0 : ttlvalue;
+    ttlvalue += 2;
+    document.getElementById('ttl'.concat(field_id)).innerHTML = ttlvalue
 }
 
-    function decrementValue()
+function decrementValue(field_id)
 {
-    var value = parseInt(document.getElementById('qtyfield').value, 10);
-    var ttlvalue = parseInt(document.getElementById('qtyfield').value, 10);
+    var value = parseInt(document.getElementById('qtyfield'.concat(field_id)).value, 10);
     value = isNaN(value) ? 0 : value;
     value--;
-    document.getElementById('qtyfield').value = value;
+    document.getElementById('qtyfield'.concat(field_id)).value = value;
+
+    var ttlvalue = parseInt(document.getElementById('ttl'.concat(field_id)).innerHTML, 10);
+    ttlvalue = isNaN(ttlvalue) ? 0 : ttlvalue;
+    ttlvalue -= 2;
+    document.getElementById('ttl'.concat(field_id)).innerHTML = ttlvalue
 }
 </script>
 {% endblock %}
