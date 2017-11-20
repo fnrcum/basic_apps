@@ -1,0 +1,23 @@
+
+<div class="product-grids">
+	<div class="container">
+		<div id="all_products" class="product-top">
+			{% for product in products %}
+			<div class="col-md-4 grid-product-in">
+				<div class=" product-grid">
+					<a id="single_page_product_{{ product.product_id }}" href="javascript:;"><img class="img-responsive " src="{{ url_for('static', filename='images/'+product.product_image) }}" alt=""></a>
+					<div class="shoe-in">
+						<h6><a href="javascript:;">{{ product.product_description }} </a></h6>
+						<label>${{ product.product_price }}</label>
+						<!--<a href="javascript:;" class="store">BUY</a>-->
+					</div>
+
+					<b class="plus-on">+</b>
+				</div>
+			</div>
+			{% endfor %}
+		<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+	<!---->

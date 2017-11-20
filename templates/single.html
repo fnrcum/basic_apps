@@ -1,0 +1,188 @@
+
+	<div class="container">
+<div class="single">
+				<div class="col-md-9 top-in-single">
+					<div class="col-md-5 single-top">
+						<a href="javascript:;"><img class="img-responsive " src="{{ url_for('static', filename='images/'+product.product_image) }}" alt=""></a>
+						<!--<ul id="etalage">-->
+							<!--<li>-->
+								<!--<a href="javascript:;">-->
+									<!--<img class="etalage_thumb_image img-responsive" src="{{ url_for('static', filename='images/si1.jpg') }}" alt="" >-->
+									<!--<img class="etalage_source_image img-responsive" src="{{ url_for('static', filename='images/s2.jpg') }}" alt="" >-->
+								<!--</a>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<img class="etalage_thumb_image img-responsive" src="{{ url_for('static', filename='images/si2.jpg') }}" alt="" >-->
+								<!--<img class="etalage_source_image img-responsive" src="{{ url_for('static', filename='images/s3.jpg') }}" alt="" >-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<img class="etalage_thumb_image img-responsive" src="{{ url_for('static', filename='images/si.jpg') }}" alt=""  >-->
+								<!--<img class="etalage_source_image img-responsive" src="{{ url_for('static', filename='images/s1.jpg') }}" alt="" >-->
+							<!--</li>-->
+						    <!--<li>-->
+								<!--<img class="etalage_thumb_image img-responsive" src="{{ url_for('static', filename='images/si3.jpg') }}"  alt="" >-->
+								<!--<img class="etalage_source_image img-responsive" src="{{ url_for('static', filename='images/s4.jpg') }}" alt="" >-->
+							<!--</li>-->
+						<!--</ul>-->
+
+					</div>	
+					<div class="col-md-7 single-top-in">
+						<div class="single-para">
+							<h4>{{ product.product_name }}</h4>
+							<p>{{ product.product_description }}</p>
+							<div class="star">
+								<ul>
+									{% for i in range(star) %}
+									<li><i> </i></li>
+									{% endfor %}
+									of 5
+								</ul>
+								<div class="review">
+									<a href="javascript:;"> {{ reviews|length }} review(s)</a>/
+									<a href="#area">  Write a review</a>
+								</div>
+							<div class="clearfix"> </div>
+							</div>
+							
+								<label  class="add-to">${{ product.product_price }}</label>
+							
+							<!--<div class="available">-->
+								<!--<h6>Available Options :</h6>-->
+								<!--<ul>-->
+									<!--<li>Size:<select>-->
+										<!--<option>Large</option>-->
+										<!--<option>Medium</option>-->
+										<!--<option>small</option>-->
+										<!--<option>Large</option>-->
+										<!--<option>small</option>-->
+									<!--</select></li>-->
+									<!--<li>Cost:-->
+											<!--<select>-->
+											<!--<option>U.S.Dollar</option>-->
+											<!--<option>Euro</option>-->
+										<!--</select>-->
+									<!--</li>-->
+								<!--</ul>-->
+							<!--</div>-->
+							
+								<!--<a href="javascript:;" class="cart ">Add to cart</a>-->
+							
+						</div>
+					</div>
+				<div class="clearfix"> </div>
+				<div class="product-top">
+		<div class="col-md-9 top-in-single">
+			{% for review in reviews %}
+			<div class=" product-grid">
+				<h6>{{ review.user.first_name + " " + review.user.last_name }}</h6>
+				<p>{{ review.review }}</p>
+			</div>
+			<br />
+			{% endfor %}
+			<!--<div class="col-md-6 contact-grid">-->
+			{% if g.user.is_authenticated %}
+				<form>
+					<div>
+						<input id="pppuid" value="{{ product.product_id }}-{{ g.user.user_id }}" style="display:none">
+						<select class="in-drop" name="stars" id="star_input">
+							<option value="1" class="in-of">1 Star</option>
+							<option value="2" class="in-of">2 Stars</option>
+							<option value="3" class="in-of">3 Stars</option>
+							<option value="4" class="in-of">4 Stars</option>
+							<option value="5" class="in-of">5 Stars</option>
+						</select>
+						<textarea name="post_area" id="area" placeholder="Post a review here" style="resize: none; height:100px; width:100%;"></textarea>
+					</div>
+					<br />
+					<div class="send-in">
+						<input id="post_review" value="Post" readonly style="width:100%;height:40px;">
+					</div>
+				</form>
+			{% endif %}
+			<!--</div>-->
+		</div>
+	<div class="clearfix"> </div>
+	</div>
+				</div>
+				<div class="col-md-3">
+					<!--<div class="single-bottom">-->
+						<!--<h4>Brands</h4>-->
+						<!--<ul>-->
+						<!--<li>-->
+							<!--<input type="checkbox"  id="brand" value="">-->
+							<!--<label for="brand"><span></span> Contrary belief</label>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<input type="checkbox"  id="brand1" value="">-->
+							<!--<label for="brand1"><span></span> Lorem Ipsum</label>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<input type="checkbox"  id="brand2" value="">-->
+							<!--<label for="brand2"><span></span> Fusce feugiat</label>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<input type="checkbox"  id="brand3" value="">-->
+							<!--<label for="brand3"><span></span> Contrary belief</label>-->
+						<!--</li>-->
+						<!--<li>-->
+							<!--<input type="checkbox"  id="brand4" value="">-->
+							<!--<label for="brand4"><span></span>Injected humour</label>-->
+						<!--</li>-->
+						<!--</ul>-->
+					<!--</div>-->
+					<div class="single-bottom">
+						<h4>Colors</h4>
+						<ul>
+						<li>
+							<input type="checkbox"  id="color" value="">
+							<label for="color"><span></span> Red</label>
+						</li>
+						<li>
+							<input type="checkbox"  id="color1" value="">
+							<label for="color1"><span></span> Blue</label>
+						</li>
+						<li>
+							<input type="checkbox"  id="color2" value="">
+							<label for="color2"><span></span> Black</label>
+						</li>
+						<li>
+							<input type="checkbox"  id="color3" value="">
+							<label for="color3"><span></span> White</label>
+						</li>
+						<li>
+							<input type="checkbox"  id="color4" value="">
+							<label for="color4"><span></span>Green</label>
+						</li>
+						</ul>
+					</div>
+					<div class="single-bottom">
+						<h4>Product Categories</h4>
+							<div class="product-go">
+								<img class="img-responsive fashion" src="{{ url_for('static', filename='images/sh.png') }}" alt="">
+							<div class="grid-product">
+								<a href="#" class="elit">Consectetuer adipiscing elit</a>
+								<span class=" price-in"><small>$500.00</small> $400.00</span>
+							</div>
+							<div class="clearfix"> </div>
+							</div>
+							<div class="product-go">
+								<img class="img-responsive fashion" src="{{ url_for('static', filename='images/sh1.png') }}" alt="">
+							<div class="grid-product">
+								<a href="#" class="elit">Consectetuer adipiscing elit</a>
+								<span class=" price-in"><small>$500.00</small> $400.00</span>
+							</div>
+							<div class="clearfix"> </div>
+							</div>
+							<div class="product-go">
+								<img class="img-responsive fashion" src="{{ url_for('static', filename='images/sh2.png') }}" alt="">
+							<div class="grid-product">
+								<a href="#" class="elit">Consectetuer adipiscing elit</a>
+								<span class=" price-in"><small>$500.00</small> $400.00</span>
+							</div>
+							<div class="clearfix"> </div>
+							</div>
+				</div>
+				</div>
+				<div class="clearfix"> </div>		
+		</div>
+	</div>

@@ -1,233 +1,166 @@
-from flask import Flask, render_template, request, json, session, redirect, url_for, escape, flash
-from hashlib import md5
-from flaskext.mysql import MySQL
+from flask import render_template, request, json, session, redirect, url_for, escape, flash, g
 import os
-
-application = Flask(__name__)
-mysql = MySQL()
-
-# MySQL configurations
-application.config['MYSQL_DATABASE_USER'] = 'trainer'
-application.config['MYSQL_DATABASE_PASSWORD'] = 'trainer7'
-application.config['MYSQL_DATABASE_DB'] = 'qa_course'
-application.config['MYSQL_DATABASE_HOST'] = '52.2.195.57'
-application.secret_key = 'FEF9B%399-!8EF6- 4B16-[9BD4-092B1<85D632D'
-mysql.init_app(application)
+import typing
+from orm import *
+from waitress import serve
 
 
 class ServerError(Exception):
     pass
 
 
+login_manager.login_view = 'account'
+
+
+@application.before_request
+def before_request():
+    g.user = current_user
+
+
+@login_manager.user_loader
+def load_user(id: int):
+    return User.query.get(int(id))
+
+
 @application.errorhandler(404)
 def page_not_found(e):
-    # return render_template('index.html'), 404
     return render_template('WIP.html'), 404
+
+
+@application.route("/page_404", methods=['GET'])
+def page_not_found():
+    return render_template('WIP.html')
+
+
+@application.route("/page_500", methods=['GET'])
+def page_500():
+    deamoaca
+    return render_template('WIP.html')
 
 
 @application.route("/index")
 @application.route("/")
 def index():
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-
-        return render_template('index.html', session_user_name=username_session, row=session['rows'])
+    if g.user.is_authenticated:
+        return render_template('index.html', user_name=g.user.last_name)
     return render_template('index.html')
 
 
-@application.route("/cart")
-def cart():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT product_id FROM cart WHERE user_id='{}';".format(session['user_id']))
-    products_in_cart = cursor.fetchall()
-    cart_list = []
-    extended_cart = []
-    quantities = []
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-        if len(products_in_cart) > 0:
-            for id in products_in_cart:
-                cursor.execute("SELECT * FROM products WHERE product_id='{0}';".format(id[0]))
-                cart_list.append(cursor.fetchone())
-                cursor.execute("SELECT quantity FROM cart WHERE product_id='{0}' AND user_id='{1}';"
-                               .format(id[0], session['user_id']))
-                quantities.append(cursor.fetchone()[0])
-            for i in range(len(cart_list)):
-                extended_cart.append(list(cart_list[i]))
-                extended_cart[i].append(quantities[i])
-            return render_template('cart.html', session_user_name=username_session, row=session['rows'],
-                                   cart=extended_cart, user_id=session['user_id'])
-        else:
-            return render_template('cart.html', session_user_name=username_session, row=session['rows'])
-    return render_template('cart.html')
+@application.route("/account", methods=['GET'])
+def account():
+    return render_template('account.html')
 
 
-@application.route("/checkout")
-def checkout():
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-
-        return render_template('checkout.html', session_user_name=username_session)
-    return render_template('checkout.html')
+@application.route("/contact", methods=['GET'])
+def contact():
+    return render_template('contact.html')
 
 
-@application.route("/shop")
-def shop():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM products;")
-    session["products"] = cursor.fetchall()
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-
-        return render_template('shop.html', session_user_name=username_session, row=session['rows'],
-                               products=session["products"], user_id=session['user_id'])
-    return render_template('shop.html', products=session["products"])
+@application.route("/products_page", methods=['GET'])
+def products_pg():
+    items = request.args.get('tags')
+    products = Product.query.all()
+    return render_template('product.html', products=products)
 
 
-@application.route("/single_product")
-def single_product():
-    if 'username' in session:
-        username_session = escape(session['username']).capitalize()
-        username_session = username_session.split('@')[0]
-
-        return render_template('single_product.html', session_user_name=username_session)
-    return render_template('single_product.html')
-
-
-@application.route('/action_login', methods=['POST'])
-def action_login():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    if 'username' in session:
-        return redirect(url_for('index'))
-
-    error = None
-    try:
-        if request.method == 'POST':
-            email_form = escape(request.form['inputEmail'])
-            cursor.execute("SELECT COUNT(1) FROM users WHERE email = '{0}';".format(email_form))
-
-            if not cursor.fetchone()[0]:
-                raise ServerError('Invalid username')
-
-            password_form = request.form['inputPassword']
-            cursor.execute("SELECT password FROM users WHERE email = '{0}';".format(email_form))
-
-            for row in cursor.fetchall():
-                hash_pwd = md5(md5(application.secret_key).hexdigest() + md5(password_form).hexdigest()).hexdigest()
-                if hash_pwd == row[0]:
-                    session['username'] = request.form['inputEmail']
-                    cursor.execute("SELECT * FROM users WHERE email = '{0}';".format(email_form))
-                    row = cursor.fetchone()
-                    conn.close()
-                    session['rows'] = row
-                    session['user_id'] = row[0]
-                    return redirect(url_for('index'))
-            raise ServerError('Invalid password')
-    except ServerError as e:
-        error = str(e)
-    conn.close()
-    return render_template('index.html', error=error)
+@application.route("/single_product", methods=['GET'])
+def single_product_pg():
+    star_sum = 0
+    product = Product.query.filter_by(product_id=request.args.get('product')).first()
+    reviews = Review.query.filter_by(product_id=request.args.get('product')).all()
+    all_stars, count = [review.stars for review in reviews], len([review.stars for review in reviews])
+    for star in all_stars:
+        star_sum += star
+    if star_sum < 1:
+        final_star_rating = 1
+    else:
+        final_star_rating = round((star_sum/count))
+    return render_template('single.html', product=product, reviews=reviews, star=final_star_rating)
 
 
-@application.route('/action_addproduct', methods=['POST'])
-def action_addproduct():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    if 'username' not in session:
-        return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        product_id = escape(request.form['productID'])
-        user_id = escape(request.form['userID'])
-        cursor.execute("SELECT COUNT(1) FROM cart WHERE product_id = '{0}' AND user_id = '{1}';".format(product_id,
-                                                                                                        user_id))
-
-        if cursor.fetchone()[0]:
-            query = "UPDATE cart SET quantity = quantity + 1 WHERE user_id = {0} AND product_id = {1}".format(user_id,
-                                                                                                              product_id)
-            cursor.execute(query)
-            conn.commit()
-        else:
-            query = "INSERT INTO cart (user_id, product_id, quantity) VALUES ('{0}', '{1}', {2})".format(user_id,
-                                                                                                         product_id, 1)
-            cursor.execute(query)
-            conn.commit()
-        # session['added_products'].append(product_id)
-        conn.close()
-        success = True
-        return redirect(url_for('shop', submission_successful=success))
-    conn.close()
-    return render_template('index.html')
+@application.route("/main_page", methods=['GET'])
+def main_pg():
+    return render_template('main_page.html')
 
 
-@application.route('/action_register', methods=['POST'])
-def action_register():
-    conn = mysql.connect()
-    cursor = conn.cursor()
+@application.route("/register", methods=['GET'])
+def register_pg():
+    return render_template('register.html')
+
+
+@application.route("/register_action", methods=['POST'])
+def register():
     # read the posted values from the UI
-    _fname = request.form['inputFirstName']
-    _lname = request.form['inputLastName']
-    _email = escape(request.form['inputEmail'])
-    _password = request.form['inputPassword']
+    _fname = request.form.get('inputFirstName')
+    _lname = request.form.get('inputLastName')
+    _email = request.form.get('inputEmail')
+    _password = request.form.get('inputPassword')
 
     # validate the received values
     if not _email and not _password:
         return json.dumps({'html': '<span>Enter the required fields</span>'})
     else:
-        json.dumps({'html': '<span>All fields good !!</span>'})
+        user = User(_fname, _lname, _email, _password)
 
-        cursor.execute("SELECT COUNT(1) FROM users WHERE email = '{0}';".format(_email))
-
-        if cursor.fetchone()[0]:
-            flash('Email already used')
-            return redirect(url_for('index'))
-
-        _hashed_password = md5(md5(application.secret_key).hexdigest() + md5(_password).hexdigest()).hexdigest()
-        query = "INSERT INTO users (first_name, last_name, email, password) VALUES ('{0}', '{1}', '{2}', '{3}')".format(
-            _fname, _lname, _email, _hashed_password)
-        cursor.execute(query)
-        conn.commit()
-        conn.close()
-    conn.close()
-    return redirect(url_for('index'))
+        db.session.add(user)
+        db.session.commit()
+        flash('Record was successfully added')
+        return render_template('account.html')
 
 
-@application.route('/action_logout')
-def action_logout():
-    session.pop('username', None)
-    if "added_products" in session:
-        session.pop("added_products", None)
-    return redirect(url_for('index'))
+@application.route("/post_review_action", methods=['POST'])
+def post_review():
+    # read the posted values from the UI
+    _stars = request.form.get('stars')
+    _review = request.form.get('post_area')
+    _prod_id = request.form.get('prod_id')
+    _user_id = request.form.get('user_id')
+
+    # validate the received values
+    review = Review(_user_id, _prod_id, _stars, _review)
+
+    db.session.add(review)
+    db.session.commit()
+    star_sum = 0
+    product = Product.query.filter_by(product_id=_prod_id).first()
+    reviews = Review.query.filter_by(product_id=_prod_id).all()
+    all_stars, count = [review.stars for review in reviews], len([review.stars for review in reviews])
+    for star in all_stars:
+        star_sum += star
+    if star_sum < 1:
+        final_star_rating = 1
+    else:
+        final_star_rating = round((star_sum / count))
+    return render_template('single.html', product=product, reviews=reviews, star=final_star_rating)
 
 
-@application.route('/action_remove_from_cart', methods=['POST'])
-def action_remove_from_cart():
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    if 'username' not in session:
-        return redirect(url_for('index'))
+@application.route("/login_action", methods=['POST'])
+def login():
+    # read the posted values from the UI
+    _email = request.form['login_email']
+    _password = generate_hash(request.form['login_password'])
 
-    if request.method == 'POST':
-        product_id = escape(request.form['productID'])
-        user_id = escape(request.form['userID'])
-        query = "DELETE FROM cart WHERE user_id = {0} AND product_id = {1}".format(user_id, product_id)
-        cursor.execute(query)
-        conn.commit()
+    # validate the received values
+    if not _email and not _password:
+        return json.dumps({'html': '<span>Enter the required fields</span>'})
+    else:
+        registered_user = User.query.filter_by(email=_email, password=_password).first()
+        if registered_user is None:
+            flash('Username or Password is invalid', 'error')
+            return render_template('account.html')
+        login_user(registered_user)
+        # return render_template('index.html')
+        return render_template('main_page.html')
 
-        conn.close()
-        return redirect(url_for('cart'))
 
-    conn.close()
-    return redirect(url_for('cart'))
-
+@application.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    return render_template('main_page.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    application.run(host="0.0.0.0", port=port)
+    application.jinja_env.cache = {}
+    # application.run(host="0.0.0.0", port=port)
+    serve(application, listen='0.0.0.0:{}'.format(port))
+

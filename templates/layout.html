@@ -1,247 +1,154 @@
 <!doctype html>
 <html lang="en">
+<script type="text/javascript">
+        reload = location.reload
+       </script>
   <head>
-    {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>eElectronics - HTML eCommerce Template</title>
-    <!-- Google Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+
+    <title>Sport A Ecommerce Category Flat Bootstarp Resposive Website Template | Home :: w3layouts</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
+      <link href="{{ url_for('static', filename='css/etalage.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <!-- Custom Theme files -->
+    <!--theme-style-->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Sport Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!--fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!--//fonts-->
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- requried-jsfiles-for owl -->
+    <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
+        <script src="{{ url_for('static', filename='js/owl.carousel.js') }}"></script>
+            <script>
+                $(document).ready(function() {
+                    $("#owl-demo").owlCarousel({
+                        items : 5,
+                        lazyLoad : true,
+                        autoPlay : true,
+                        navigation : true,
+                        navigationText :  true,
+                        pagination : false,
+                    });
+                });
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+             </script>
+     <!-- //requried-jsfiles-for owl -->
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    {% endblock %}
+			<!-- start content_slider -->
   </head>
-  <body>
-    {% block main_top %}
-    <div class="header-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="user-menu">
-                        <ul>
-                            {% if session_user_name %}
-                            <li><a href="#" data-toggle="modal" data-target="#myAccountModal"><i class="fa fa-user" data-toggle="modal" data-target="#myModal"></i>{% print session_user_name %}</a></li>
-                            {% endif %}
-                            <!--<li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>-->
-                            <!--<li><a href="cart.html"><i class="fa fa-user"></i> My Cart</a></li>-->
-                            <!--<li><a href="checkout.html"><i class="fa fa-user"></i> Checkout</a></li>-->
-                            {% if not session_user_name %}
-                            <li><a href="#" data-toggle="modal" data-target="#myLoginModal"><i class="fa fa-user" data-toggle="modal" data-target="#myModal"></i> Login</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#myRegisterModal"><i class="fa fa-user" data-toggle="modal" data-target="#myModal"></i> Register</a></li>
-                            {% else %}
-                            <li><a href="{{ url_for('action_logout') }}"><i class="fa fa-user"></i> Log Out</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-                <style>
+  <body onload="brython(10)">
+    <div id="main_wrapper">
+    {% block header %}
+    <!--header-->
+        <div class="line">
 
-
-                </style>
-    <!--Modal Log In-->
-      <div class="modal fade" id="myLoginModal" role="form">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title text-xs-center">Log In</h4>
-            </div>
-            <div class="modal-body">
-              <form action="{{ url_for('action_login') }}" method=POST class="form-signin" id="frmlgn">
-                <label for="inputEmailLogin" class="sr-only">Email Address</label>
-                <input type="email" name="inputEmail" id="inputEmailLogin" class="form-control margin_correcter" placeholder="Email Address" required autofocus>
-                <label for="inputPasswordLogin" class="sr-only">Password</label>
-                <input type="password" name="inputPassword" id="inputPasswordLogin" class="form-control margin_correcter" placeholder="Password" required>
-                <button id="btnLogIn" class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            </form>
-            </div>
-            <!--<div class="modal-footer">-->
-              <!--&lt;!&ndash;<a href="#" data-dismiss="modal" data-toggle="modal" data-target="#mySignupModal">Sign Up</a>&ndash;&gt;-->
-            <!--</div>-->
-          </div>
         </div>
-      </div>
-        <!--Modal Register-->
-      <div class="modal fade" id="myRegisterModal" role="form">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title text-xs-center">Register</h4>
+        <div class="header">
+            <div class="logo">
+                <a id="logo_link" href="javascript:;"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="" ></a>
             </div>
-            <div class="modal-body">
-              <form action="{{ url_for('action_register') }}" method=POST class="form-signin" id="frmreg">
-                <label for="inputFirstName" class="sr-only">First Name</label>
-                <input type="text" name="inputFirstName" id="inputFirstName" class="form-control margin_correcter" placeholder="First Name" required autofocus>
-
-                <label for="inputLastName" class="sr-only">Last Name</label>
-                <input type="text" name="inputLastName" id="inputLastName" class="form-control margin_correcter" placeholder="Last Name" required>
-
-                <label for="inputEmailLogin" class="sr-only">Email Address</label>
-                <input type="email" name="inputEmail" id="inputRegisterEmailLogin" class="form-control margin_correcter" placeholder="Email Address" required autofocus>
-
-                <label for="inputPasswordLogin" class="sr-only">Password</label>
-                <input type="password" name="inputPassword" id="inputRegisterPasswordLogin" class="form-control margin_correcter" placeholder="Password" required>
-
-                <button id="btnRegister" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            </form>
-            </div>
-            <!--<div class="modal-footer">-->
-              <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <!--</div>-->
-          </div>
-        </div>
-      </div>
-
-        {% if session_user_name %}
-        <!--Modal Account-->
-        <div class="modal fade" id="myAccountModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Account info</h4>
-                </div>
-                <div class="modal-body">
-                  <div class="container-fluid">
-          <div class="row">
-              <!-- NOTE: This truncates FN/LN/Email to 80 chars in account info, but the title does not display the whole string - WIP to find a solution -->
-            <div class="col-sm-3">
-              First Name
-            </div>
-              {% if row[1]|length >100 %}
-                <div class="col-sm-9" id = "firstname" title="{{row[1]}}"> {%print row[1]|truncate(80) %} </div>
-              {% else %}
-                <div class="col-sm-9">{% print row[1]%}</div>
-              {% endif %}
-            <div class="col-sm-3">
-              Last Name
-            </div>
-            {% if row[2]|length >100 %}
-                <div class="col-sm-9" id = "lastname" title="{{row[2]}}"> {%print row[2]|truncate(80) %} </div>
-              {% else %}
-                <div class="col-sm-9">{% print row[2]%}</div>
-              {% endif %}
-            <div class="col-sm-3">
-              Email
-            </div>
-            {% if row[3]|length >100 %}
-                <div class="col-sm-9" id = "email" title="{{row[3]}}"> {%print row[3]|truncate(80) %} </div>
-              {% else %}
-                <div class="col-sm-9">{% print row[3]%}</div>
-              {% endif %}
-          </div>
-        </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-         {% endif %}
-
-                <div class="col-md-4">
-                    <!--<div class="header-right">-->
-                        <!--<ul class="list-unstyled list-inline">-->
-                            <!--<li class="dropdown dropdown-small">-->
-                                <!--<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">USD </span><b class="caret"></b></a>-->
-                                <!--<ul class="dropdown-menu">-->
-                                    <!--<li><a href="#">USD</a></li>-->
-                                    <!--<li><a href="#">INR</a></li>-->
-                                    <!--<li><a href="#">GBP</a></li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-
-                            <!--<li class="dropdown dropdown-small">-->
-                                <!--<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>-->
-                                <!--<ul class="dropdown-menu">-->
-                                    <!--<li><a href="#">English</a></li>-->
-                                    <!--<li><a href="#">French</a></li>-->
-                                    <!--<li><a href="#">German</a></li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-                </div>
-            </div>
-        </div>
-    </div> <!-- End header area -->
-
-    <div class="site-branding-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="logo">
-                        <h1><a href="{{ url_for('index') }}">e<span>Electronics</span></a></h1>
-                    </div>
-                </div>
-
-                <!--<div class="col-sm-6">-->
-                    <!--<div class="shopping-item">-->
-                        <!--<a href="cart.html">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
-        </div>
-    </div> <!-- End site branding area -->
-
-    <div class="mainmenu-area">
-        <div class="container">
-            <div class="row">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ url_for('index') }}">Home</a></li>
-                        <li><a href="{{ url_for('shop') }}">Shop page</a></li>
-                        <!--<li><a href="{{ url_for('single_product') }}">Single product</a></li>-->
-                        {% if session_user_name %}
-                        <li ><a href="{{ url_for('cart') }}">Cart</a></li>
+            <div  class="header-top">
+                <div class="header-grid">
+                    <ul class="header-in">
+                        {% if g.user.is_authenticated %}
+                        <li id="myacc4"><a href="javascript:;">{{ g.user.last_name }}</a></li>
                         {% endif %}
-                        <!--<li><a href="{{ url_for('checkout') }}">Checkout</a></li>-->
-                        <!--<li><a href="#">Category</a></li>-->
-                        <!--<li><a href="#">Others</a></li>-->
-                        <!--<li><a href="#">Contact</a></li>-->
+                        <!--<li>-->
+                            <!--<select class="in-drop">-->
+                              <!--<option value="Dollars" class="in-of">Dollars</option>-->
+                              <!--<option value="Euro" class="in-of">Euro</option>-->
+                              <!--<option value="Yen" class="in-of">Yen</option>-->
+                            <!--</select>-->
+                        <!--</li>-->
                     </ul>
+                        <div class="search-box">
+                            <div id="sb-search" class="sb-search">
+                                <form>
+                                    <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="search" id="search">
+                                    <input class="sb-search-submit" type="submit" value="">
+                                    <span class="sb-icon-search"> </span>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- search-scripts -->
+                        <script src="{{ url_for('static', filename='js/classie.js') }}"></script>
+                        <script src="{{ url_for('static', filename='js/uisearch.js') }}"></script>
+                            <script>
+                                new UISearch( document.getElementById( 'sb-search' ) );
+                            </script>
+                        <!-- //search-scripts -->
+                        <div class="online">
+                        <a href="javascript:;" >SHOP ONLINE</a>
+                        </div>
+                        <div class="clearfix"> </div>
                 </div>
+                <div class="header-bottom">
+                    <div class="h_menu4"><!-- start h_menu4 -->
+                    <a class="toggleMenu" href="#">Menu</a>
+                    <ul class="nav">
+                        <li id="header_running_link" class="active go_to_404"><a href="javascript:;">Running</a></li>
+                        <li id="header_fitness_link" class="go_to_404"><a href="javascript:;">Fitness</a></li>
+                        <li id="header_tennis_link" class="go_to_404"><a href="javascript:;">Tennis</a>
+                        </li>
+                        <li id="header_football_link" class="go_to_404"><a href="javascript:;">Football</a></li>
+                        <li id="header_golf_link" class="go_to_404"><a href="javascript:;">Golf</a></li>
+                        <li><a class="parent" href="javascript:;">More <i> </i></a>
+                            <ul>
+                                <li id="contact_link" class="go_to_404"><a href="javascript:;">Contact</a></li>
+                                {% if not g.user.is_authenticated %}
+                                <li id="myacc_1"><a href="javascript:;">Account</a></li>
+                                <li id="header_register"><a href="javascript:;">Register</a></li>
+                                {% else %}
+                                <li id="logout"><a href="javascript:;">Log Out</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <script type="text/javascript" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+                </div><!-- end h_menu4 -->
+                        <!--<ul class="header-bottom-in">-->
+                            <!--<li ><select class="drop">-->
+                                  <!--<option value="Dollars" class="in-of">Get Active</option>-->
+                                  <!--<option value="Euro" class="in-of">Get Active1</option>-->
+                                  <!--<option value="Yen" class="in-of">Get Active2</option>-->
+                                <!--</select> </li>-->
+                            <!--<li ><select class="drop">-->
+                                  <!--<option value="Dollars" class="in-of">Community</option>-->
+                                  <!--<option value="Euro" class="in-of">Community1</option>-->
+                                  <!--<option value="Yen" class="in-of">Community2</option>-->
+                                <!--</select></li>-->
+                        <!--</ul>-->
+                <div class="clearfix"> </div>
             </div>
+            </div>
+            <div class="clearfix"> </div>
         </div>
-    </div> <!-- End mainmenu area -->
+        <!---->
+
+    <!---->
     {% endblock %}
 
+    <div id="main_area">
     {% block content %}{% endblock %}
-
+    </div>
+    {% include "footer.html" %}
+        <!--Brython files-->
+    <script type="text/javascript" src="{{ url_for('static', filename='brython/brython.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='brython/brython_stdlib.js') }}"></script>
+    <script type="text/python" src="{{ url_for('static', filename='brython/ajax.py') }}"></script>
+    </div>
   </body>
 </html>
