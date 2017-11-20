@@ -100,12 +100,15 @@ def bind_my_acc_button(ev):
     except: pass
 
 
+def cart_links_click(ev):
+    get_data("/cart", qs)
+
 def bind_all_header_footer_links(ev):
     elements = []
     elements.append(document['contact_link'].bind('click', contact_link_click))
     elements.append(document['logo_link'].bind('click', logo_link_click))
 
-    elements.append(document['header_running_link'].bind('click', products_link_click))
+    elements.append(document['header_running_link'].bind('click', cart_links_click))
     elements.append(document['header_fitness_link'].bind('click', products_link_click))
     elements.append(document['header_tennis_link'].bind('click', products_link_click))
     elements.append(document['header_football_link'].bind('click', products_link_click))
@@ -299,7 +302,7 @@ document['header_tennis_link'].bind('click', products_link_click)
 document['header_football_link'].bind('click', products_link_click)
 document['header_golf_link'].bind('click', products_link_click)
 
-document['footer_running_link'].bind('click', products_link_click)
+document['footer_running_link'].bind('click', cart_links_click)
 document['footer_cycling_link'].bind('click', products_link_click)
 document['footer_triathlon_link'].bind('click', products_link_click)
 document['footer_fitness_link'].bind('click', products_link_click)

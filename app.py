@@ -162,6 +162,29 @@ def logout():
     logout_user()
     return render_template('main_page.html')
 
+@application.route("/cart", methods=['GET'])
+def cart_pg():
+    cart_table = Cart
+    product_table = Product
+    user_id = User.query.filter_by(email=g.user.email).first().user_id
+    return render_template('cart.html', cart_table=cart_table, product_table=product_table, userid=user_id)
+
+
+@application.route("/cart", methods=['GET', 'POST'])
+def remove_cart_item():
+    cart_row = Cart.query.filter_by(cart_id=[request.form['cartID']]).one()
+    db.session.delete(cart_row)
+    db.session.commit()
+    cart_table = Cart
+    product_table = Product
+    user_id = User.query.filter_by(email=g.user.email).first().user_id
+    return render_template('cart.html', cart_table=cart_table, product_table=product_table, userid=user_id)
+
+@application.route("/cart", methods=['GET', 'PUT'])
+def update_product_quantity():
+    pass
+    return render_template('cart.html', cart_table=cart_table, product_table=product_table, userid=user_id)
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     application.jinja_env.cache = {}

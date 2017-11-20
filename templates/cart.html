@@ -1,0 +1,49 @@
+
+<div class="container">
+  {% if g.user.is_authenticated %}
+  <h2 class="cart-title">Shopping Cart</h2>
+    <div class="column-labels">
+    <label class="image-column">Image</label>
+    <label class="name-column">Product</label>
+    <label class="price-column">Price</label>
+    <label class="quantity-column">Quantity</label>
+  </div>
+  <div class="product">
+      {% for item in cart_table.query.filter_by(user_id=userid).all() %}
+      <ul>
+          <div  class="product-image">
+              <a id="single_page_product_{{ product_table.query.filter_by(product_id=item.product_id).first().product_id }}" href="javascript:;"><img src="{{ url_for('static', filename='images/'+product_table.query.filter_by(product_id=item.product_id).first().product_image) }}" alt=""></a>
+          </div>
+          <div  class="product-title">{{product_table.query.filter_by(product_id=item.product_id).first().product_name}}</div>
+          <div  class="product-price">${{product_table.query.filter_by(product_id=item.product_id).first().product_price}}</div>
+          <div  class="product-quantity">
+          <form name="Item_1" action="results.html" method='POST'>
+            <select class="quantity-dropdown" name="product_quantity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+          </form>
+          </div>
+          <div  class="product-removal">
+            <form action="{{ url_for('remove_cart_item')}}" method="POST">
+                 <input type="hidden" name="cartID" value="{{item.cart_id}}" />
+                 <input type="submit"  class="remove-product" value="Remove" onclick="return confirm('Remove product from cart?')" />
+            </form>
+          </div>
+        </ul>
+       {% endfor %}
+  </div>
+  <div class="summary">
+      <span><p class="total">Total:</p></span>
+      <span><p class="total-price">$99</p></span>
+      <button class="payment-button">Payment method</button>
+  </div>
+</div>
+{% endif %}
+</div>
+
