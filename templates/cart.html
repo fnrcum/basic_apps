@@ -1,7 +1,7 @@
 
 <div class="container">
   {% if g.user.is_authenticated %}
-  <h2 class="cart-title">Shopping Cart</h2>
+  <h2 class="cart-title">Cart</h2>
     <!--<div class="column-labels">-->
     <!--<label class="image-column">Image</label>-->
     <!--<label class="name-column">Product</label>-->
@@ -20,7 +20,7 @@
           <div  class="product-quantity">
           <form name="Item_1"  method='POST'>
               <input type="hidden" name="cartID" id="hidden_cart_id_input_{{item.cart_id}}" value="{{item.cart_id}}" />
-              <input name="quantity_input" style="width: 50px" id="quantity_of_product_{{item.cart_id}}" type="number" value="{{item.quantity}}" min="1" max="10">
+              <input name="quantity_input" style="width: 30px" id="quantity_of_product_{{item.cart_id}}" type="number" value="{{item.quantity}}" min="1" max="10">
           </form>
           </div>
           <div  class="product-removal">
@@ -34,7 +34,7 @@
   </div>
   <div class="summary">
       <span><p class="total-price">Total price: {{total_price}}</p></span>
-      <a id="payment_link" class="payment-button"  href="javascript:;">Payment Method</a>
+      <a id="payment_link" class="btn btn-success btn-lg btn-block"  href="javascript:;">Payment</a>
   </div>
 </div>
 {% endif %}

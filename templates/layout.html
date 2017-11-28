@@ -15,6 +15,8 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 
+
+
     <!-- Custom Theme files -->
     <!--theme-style-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
@@ -68,6 +70,7 @@
                         {% if g.user.is_authenticated %}
                         <li id="myacc4"><a href="javascript:;">{{ g.user.last_name }}</a></li>
                          <li id="cart_link" ><a href="javascript:;" >Cart (x)</a></li>
+
                         {% endif %}
                         <!--<li>-->
                             <!--<select class="in-drop">-->
@@ -150,10 +153,14 @@
     {% include "footer.html" %}
         <!--Brython files-->
     <script type="text/javascript" src="{{ url_for('static', filename='brython/brython.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='brython/brython_stdlib.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='brython/brython_stdlib.js') }}">   </script>
     <script type="text/python" src="{{ url_for('static', filename='brython/ajax.py') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.payform.min.js') }}"></script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/payment.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.payform.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </div>
   </body>
 </html>
