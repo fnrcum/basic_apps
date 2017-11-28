@@ -151,15 +151,15 @@
     {% block content %}{% endblock %}
     </div>
     {% include "footer.html" %}
+
         <!--Brython files-->
     <script type="text/javascript" src="{{ url_for('static', filename='brython/brython.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='brython/brython_stdlib.js') }}">   </script>
     <script type="text/python" src="{{ url_for('static', filename='brython/ajax.py') }}"></script>
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/payment.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.payform.min.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
     </div>
   </body>
