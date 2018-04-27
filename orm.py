@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 
 application = Flask(__name__)
 
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:dreamteam@34.217.209.173/qa_course'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:dreamteam7@34.217.209.173/qa_course'
 # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@127.0.0.1/qa_course'
 application.secret_key = 'FEF9B%399-!8EF6- 4B16-[9BD4-092B1<85D632D'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
