@@ -22,9 +22,9 @@ def load_user(id: int):
     return User.query.get(int(id))
 
 
-@application.errorhandler(404)
-def page_not_found(e):
-    return render_template('WIP.html'), 404
+# @application.errorhandler(404)
+# def page_not_found(e):
+#     return render_template('WIP.html'), 404
 
 
 @application.route("/page_404", methods=['GET'])
